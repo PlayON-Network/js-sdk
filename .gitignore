@@ -1,0 +1,14 @@
+# build/dependencies
+node_modules
+dist
+declarations
+
+# misc
+/.env*
+/.pnp*
+/.eslintcache
+coverage
+/lerna-debug.log
+/npm-debug.log*
+/testem.log
+/yarn-error.log

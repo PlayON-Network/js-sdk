@@ -1,0 +1,18 @@
+{
+  "name": "playon-network-wrapper",
+  "description": "Monorepo for the PlayON Network JavaScript SDK",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TradePlayer/playon-network-js-sdk.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "c8": "^8.0.1",
+    "chai": "^4.3.10",
+    "lerna": "^7.4.1",
+    "mocha": "^10.2.0"
+  }
+}

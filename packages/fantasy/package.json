@@ -1,0 +1,51 @@
+{
+  "name": "@playon-network/fantasy",
+  "version": "1.0.0",
+  "description": "Package to integrate a Fantasy game of the PlayON Network",
+  "keywords": [
+    "playon",
+    "fantasy",
+    "sports"
+  ],
+  "author": "PlayON Team",
+  "homepage": "https://playon.network",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "browser": "dist/esm/index.esm2017.js",
+  "module": "dist/esm/index.esm2017.js",
+  "esm5": "dist/esm/index.esm5.js",
+  "typings": "src/types.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/types.d.ts",
+      "require": "./dist/index.cjs.js",
+      "esm5": "./dist/esm/index.esm5.js",
+      "default": "./dist/esm/index.esm2017.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "directory": "packages/fantasy",
+    "type": "git",
+    "url": "git+https://github.com/TradePlayer/playon-network-js-sdk.git"
+  },
+  "scripts": {
+    "build": "rollup --config",
+    "test": "c8 mocha 'src/**/*.test.js'"
+  },
+  "bugs": {
+    "url": "https://github.com/TradePlayer/playon-network-js-sdk/issues"
+  },
+  "devDependencies": {
+    "@rollup/plugin-json": "^6.0.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@playon-network/engine": "file:../engine"
+  }
+}
