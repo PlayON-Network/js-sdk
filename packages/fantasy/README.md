@@ -1,11 +1,7 @@
-# `fantasy`
+# @playon-network/fantasy
 
-> TODO: description
+This is the PlayON Network Fantasy component of the PlayON Network JS SDK.
 
 ## Usage
 
-```
-const fantasy = require('fantasy');
-
-// TODO: DEMONSTRATE API
-```
+Refer to the main [README.md](../../README.md) for more details.

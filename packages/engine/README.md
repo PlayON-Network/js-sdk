@@ -1,11 +1,7 @@
-# `engine`
+# @playon-network/engine
 
-> TODO: description
+This is the PlayON Network Engine component of the PlayON Network JS SDK.
 
 ## Usage
 
-```
-const engine = require('engine');
-
-// TODO: DEMONSTRATE API
-```
+Refer to the main [README.md](../../README.md) for more details.
