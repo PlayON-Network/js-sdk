@@ -1,6 +1,6 @@
 {
   "name": "@playon-network/engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The primary entrypoint to the PlayON Network JS SDK",
   "keywords": [
     "playon",

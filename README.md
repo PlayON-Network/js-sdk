@@ -4,7 +4,14 @@ The PlayON Network JavaScript SDK implements the client-side libraries used by
 applications using PlayON Network services. This SDK is distributed via:
 
 - [CDN]() # TODO
-- [npm package]() # TODO
+- [npm package](https://www.npmjs.com/org/playon-network?activeTab=packages)
+
+## Installation
+
+```bash
+$ npm install --save @playon-network/engine
+$ npm install --save @playon-network/fantasy
+```
 
 ## Get Started
 
