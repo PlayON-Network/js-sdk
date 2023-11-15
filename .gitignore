@@ -1,14 +1,17 @@
 # build/dependencies
 node_modules
 dist
+tmp
 declarations
 
 # misc
-/.env*
-/.pnp*
-/.eslintcache
+.idea
+.vscode
+.env*
+.pnp*
+.eslintcache
 coverage
-/lerna-debug.log
-/npm-debug.log*
-/testem.log
-/yarn-error.log
+lerna-debug.log
+npm-debug.log*
+testem.log
+yarn-error.log
