@@ -35,7 +35,8 @@
   },
   "scripts": {
     "build": "rollup --config",
-    "test": "c8 mocha 'src/**/*.test.js'"
+    "test": "c8 mocha 'src/**/*.test.js'",
+    "serve:skeleton": "node ../../server.js --path packages/fantasy/src/skeleton/test --assets packages/fantasy/dist"
   },
   "bugs": {
     "url": "https://github.com/PlayON-Network/js-sdk/issues"
@@ -46,6 +47,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@playon-network/engine": "^1.0.0"
+    "@playon-network/engine": "^1.0.1",
+    "lit": "^3.0.2"
   }
 }

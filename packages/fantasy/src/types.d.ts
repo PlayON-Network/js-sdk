@@ -1,4 +1,5 @@
 import { PlayonNetworkEngine } from '@playon-network/engine';
+import {SkeletonDrawerTile} from "./skeleton/components/drawer/tile";
 
 declare module '@playon-network/fantasy' {
   /**
@@ -30,3 +31,10 @@ declare module '@playon-network/fantasy' {
     deactivate(): void;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "po-skeleton-drawer-tile": SkeletonDrawerTile;
+  }
+}
+
