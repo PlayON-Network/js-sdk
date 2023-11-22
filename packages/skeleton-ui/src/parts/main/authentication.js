@@ -55,7 +55,7 @@ class SkeletonFantasyAuth extends LitElement {
         css`.skeleton-form .skeleton-field, .skeleton-form .skeleton-submit {
           height: 42px;
           border-radius: 3px;
-          background-color: #D1D6DE;
+          background-color: var(--skeleton-color, #D1D6DE);
         }`,
         css`.skeleton-form .skeleton-field {
           margin-bottom: 15px;

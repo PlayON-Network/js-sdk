@@ -1,7 +1,7 @@
 {
-  "name": "@playon-network/fantasy",
+  "name": "@playon-network/skeleton-ui",
   "version": "1.0.0",
-  "description": "Package to integrate a Fantasy game of the PlayON Network",
+  "description": "Package to integrate a skeleton loading interface in the games provided by the PlayON Network",
   "keywords": [
     "playon",
     "fantasy",
@@ -29,25 +29,19 @@
     "dist"
   ],
   "repository": {
-    "directory": "packages/fantasy",
+    "directory": "packages/skeleton-ui",
     "type": "git",
     "url": "git+https://github.com/PlayON-Network/js-sdk.git"
   },
   "scripts": {
     "build": "rollup --config",
-    "test": "c8 mocha 'src/**/*.test.js'"
+    "test": "c8 mocha 'src/**/*.test.js'",
+    "serve:skeleton": "rollup --config && node ../../server.js --path packages/skeleton-ui/src/test --assets packages/skeleton-ui/dist"
   },
   "bugs": {
     "url": "https://github.com/PlayON-Network/js-sdk/issues"
   },
-  "devDependencies": {
-    "@rollup/plugin-json": "^6.0.1",
-    "rollup-plugin-typescript2": "^0.36.0",
-    "typescript": "^5.2.2"
-  },
-  "peerDependencies": {
-    "@playon-network/engine": "^1.0.1",
-    "@playon-network/skeleton-ui": "^1.0.0",
+  "dependencies": {
     "lit": "^3.0.2"
   }
 }

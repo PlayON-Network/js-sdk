@@ -12,7 +12,7 @@ class SkeletonDrawerDivider extends LitElement {
         css`:host {
           width: 100%;
           min-height: 2px;
-          background-color: #ECECEE;
+          background-color: var(--drawer-divider-color, #ECECEE);
           margin: 10px 0;
         }`,
     ];

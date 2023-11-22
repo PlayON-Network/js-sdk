@@ -1,15 +1,14 @@
 import {LitElement, html, css} from 'lit';
+import {skeletonBoxSizing} from "../styles.js";
 
 export class SkeletonDrawer extends LitElement {
     static styles = [
+        skeletonBoxSizing,
         css`:host {
-          box-sizing: border-box;
-        }`,
-        css`.skeleton-drawer {
+          background-color: var(--drawer-color, #fff);
           width: 74px;
           height: 100%;
-          background-color: #fff;
-          border-right: #ECECEE 1px solid;
+          border-right: var(--drawer-border-color, #ECECEE) 1px solid;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -24,11 +23,7 @@ export class SkeletonDrawer extends LitElement {
     ];
 
     render() {
-        return html`
-            <div class="skeleton-drawer">
-                <slot></slot>
-            </div>
-        `;
+        return html`<slot></slot>`;
     }
 }
 

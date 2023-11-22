@@ -72,7 +72,7 @@ export const skeletonIcon = css`
     min-width: 24px;
     min-height: 24px;
     border-radius: 4px;
-    background-color: #D1D6DE;
+    background-color: var(--skeleton-color, #D1D6DE);
   }
 `;
 
@@ -81,7 +81,7 @@ export const skeletonLabel = css`
     width: 60px;
     height: 16px;
     border-radius: 3px;
-    background-color: #D1D6DE;
+    background-color: var(--skeleton-color, #D1D6DE);
   }
 `;
 

@@ -4,7 +4,7 @@ import typescript from 'typescript';
 import json from '@rollup/plugin-json';
 import summary from 'rollup-plugin-summary';
 
-const copyTypes = copy({
+export const copyTypes = copy({
   targets: [{ src: 'src/types.d.ts', dest: 'dist' }]
 });
 
@@ -17,7 +17,7 @@ const es5BuildPlugins = [
   summary(),
 ];
 
-const es2017BuildPlugins = [
+const esm2017BuildPlugins = [
   copyTypes,
   typescriptPlugin({
     typescript,
@@ -41,40 +41,52 @@ export function buildDeps(pkg) {
   );
 }
 
-export function buildEsm(pkg, deps) {
+/**
+ * @param {Object} pkg
+ * @param {string[]} deps
+ * @param {Array|Object} plugins
+ */
+export function buildEsm(pkg, deps, plugins= {
+  esm5: es5BuildPlugins,
+  esm2017: esm2017BuildPlugins,
+}, options) {
+  options = options || {};
+
+  if (Array.isArray(plugins)) {
+    plugins = {
+      esm5: plugins,
+      esm2017: plugins,
+    }
+  }
+
   return [
     {
       input: 'src/main.js',
       output: [{ file: pkg.esm5, format: 'es', sourcemap: true }],
       external: id => deps.some(dep => id === dep || id.startsWith(`${dep}/`)),
-      plugins: [
-        ...es5BuildPlugins,
-      ],
+      plugins: [...plugins.esm5],
+      ...options,
     },
     {
       input: 'src/main.js',
-      output: {
-        file: pkg.browser,
-        format: 'es',
-        sourcemap: true
-      },
+      output: [{ file: pkg.browser, format: 'es', sourcemap: true }],
       external: id => deps.some(dep => id === dep || id.startsWith(`${dep}/`)),
-      plugins: [
-        ...es2017BuildPlugins,
-      ],
+      plugins: [...plugins.esm2017],
+      ...options,
     }
   ];
 }
 
-export function buildCjs(pkg, deps) {
+export function buildCjs(pkg, deps, plugins = es5BuildPlugins, options) {
+  options = options || {};
+
   return [
     {
       input: 'src/main.js',
       output: [{ file: pkg.main, format: 'cjs', sourcemap: true }],
       external: id => deps.some(dep => id === dep || id.startsWith(`${dep}/`)),
-      plugins: [
-        ...es5BuildPlugins,
-      ],
+      plugins: [...plugins],
+      ...options,
     },
   ];
 }

@@ -1,5 +1,5 @@
-import {LitElement, html} from 'lit';
-import {skeletonBoxSizing, skeletonLogoSm} from "../styles.js";
+import {LitElement, html, css} from 'lit';
+import {skeletonBoxSizing} from "../styles.js";
 import "../components/drawer.js";
 import "../components/drawer/tile.js";
 import "../components/drawer/divider.js";

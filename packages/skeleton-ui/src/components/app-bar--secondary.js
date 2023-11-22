@@ -9,6 +9,7 @@ class SkeletonAppBarSecondary extends LitElement {
         skeletonIcon,
         skeletonAppBarStyles,
         css`.skeleton-app-bar--secondary {
+          background-color: var(--secondary-app-bar-color, var(--app-bar-color, #fff));
           height: 64px;
         }`,
     ];

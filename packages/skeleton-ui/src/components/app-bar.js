@@ -1,11 +1,15 @@
 import {LitElement, html, css} from 'lit';
-import {skeletonAnimated, skeletonBoxSizing, skeletonIcon} from "../styles.js";
+import {
+    skeletonAnimated,
+    skeletonBoxSizing,
+    skeletonIcon
+} from "../styles.js";
 
 export const skeletonAppBarStyles = css`
     .skeleton-app-bar {
+        background-color: var(--app-bar-color, #fff);
         height: 72px;
-        background-color: #fff;
-        border-bottom: #ECECEE 0.5px solid;
+        border-bottom: var(--app-bar-border-color, #ECECEE) 0.5px solid;
         display: flex;
         padding: 10px 40px;
         align-items: center;
@@ -15,7 +19,7 @@ export const skeletonAppBarStyles = css`
         width: 150px;
         height: 35px;
         border-radius: 4px;
-        background-color: #D1D6DE;
+        background-color: var(--skeleton-color, #D1D6DE);
     }
 
     .skeleton-app-bar__icon {
@@ -26,7 +30,7 @@ export const skeletonAppBarStyles = css`
         width: 430px;
         height: 100%;
         border-radius: 4px;
-        background-color: #EBECF0;
+        background-color: var(--app-bar-event-selector-color, #EBECF0);
         margin-right: auto;
     }
     
@@ -34,7 +38,7 @@ export const skeletonAppBarStyles = css`
         width: 60px;
         height: 16px;
         border-radius: 3px;
-        background-color: #D1D6DE;
+        background-color: var(--skeleton-color, #D1D6DE);
         margin-left: 30px;
     }
     
@@ -42,7 +46,7 @@ export const skeletonAppBarStyles = css`
         width: 100px;
         height: 30px;
         border-radius: 4px;
-        background-color: #F2F2F2;
+        background-color: var(--app-bar-button-color, #F2F2F2);
         margin-left: 30px;
     }
 `;

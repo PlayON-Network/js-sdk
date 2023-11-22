@@ -4,7 +4,7 @@ import "./parts/drawer.js";
 import "./parts/main.js";
 import "./components/logo.js";
 
-class SkeletonFantasy extends LitElement {
+export default class FantasySkeleton extends LitElement {
     static styles = [
         skeletonBoxSizing,
         css`
@@ -14,7 +14,7 @@ class SkeletonFantasy extends LitElement {
             display: flex;
             width: 100%;
             height: 100%;
-            background-color: #F2F3F5;
+            background-color: var(--background-color, #F2F3F5);
             transition: opacity 350ms ease-in-out;
           }
           
@@ -72,5 +72,3 @@ class SkeletonFantasy extends LitElement {
             Number.isInteger(parseInt(parts[1]));
     }
 }
-
-customElements.define('po-fantasy-skeleton', SkeletonFantasy);

@@ -13,6 +13,6 @@ export const skeletonMainContentStyles = css`
     height: 100%;
     border-radius: 10px;
     margin: 15px;
-    background-color: #EBECF0;
+    background-color: var(--item-color, #EBECF0);
   }
 `;
