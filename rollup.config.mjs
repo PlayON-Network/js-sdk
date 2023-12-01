@@ -44,7 +44,8 @@ export function buildDeps(pkg) {
 /**
  * @param {Object} pkg
  * @param {string[]} deps
- * @param {Array|Object} plugins
+ * @param {Array|Object?} plugins
+ * @param {Object?} options
  */
 export function buildEsm(pkg, deps, plugins= {
   esm5: es5BuildPlugins,

@@ -120,14 +120,13 @@ export default class PlayonNetworkEngine {
 
   /**
    * @package
-   * @return {import("@playon-network/engine").PlayonNetworkEngine}
+   * @return {Promise<import("@playon-network/engine").PlayonNetworkEngine>}
    * @since 1.0.0
    */
   load() {
     return new Promise((resolve) => {
       if (!this._loaded) {
-        // TODO -- Rename 'flutter.js' to 'engine.js'
-        const scripts = ['flutter.js'];
+        const scripts = ['engine.js'];
 
         this._resolveCounter = scripts.length;
 

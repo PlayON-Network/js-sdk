@@ -10,15 +10,6 @@ declare module '@playon-network/fantasy' {
   export function initializeFantasyApp(engine: PlayonNetworkEngine, element: HTMLElement): FantasyApp;
 
   /**
-   * @param {PlayonNetworkEngine} engine
-   * @param {HTMLElement} element
-   * @param {string} [authToken]
-   * @returns {FantasyApp}
-   * @since 1.0.0
-   */
-  export function initializeFantasyApp(engine: PlayonNetworkEngine, element: HTMLElement, authToken?: string): FantasyApp;
-
-  /**
    * @public
    * @since 1.0.0
    */

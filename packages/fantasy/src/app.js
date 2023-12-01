@@ -38,6 +38,6 @@ export default class FantasyApp extends PlayonNetworkApp {
    * @since 1.0.0
    */
   static get _entrypointName() {
-    return "main.dart";
+    return "app";
   }
 }
