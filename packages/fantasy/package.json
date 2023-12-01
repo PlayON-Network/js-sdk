@@ -1,6 +1,6 @@
 {
   "name": "@playon-network/fantasy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Package to integrate a Fantasy game of the PlayON Network",
   "keywords": [
     "playon",
