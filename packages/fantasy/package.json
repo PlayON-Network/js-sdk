@@ -48,7 +48,7 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "@playon-network/engine": "^1.0.1",
+    "@playon-network/engine": "^1.0.2",
     "@playon-network/skeleton-ui": "^1.0.0",
     "lit": "^3.0.2"
   }
