@@ -71,7 +71,20 @@ declare module '@playon-network/engine' {
      * @since 1.0.0
      */
     authToken: string;
-    
+
+    /**
+     * The attestation token is required to pass the device verification when
+     * using a development/staging environment.
+     *
+     * Because this token allows access to the app resources without a valid
+     * device, it is crucial that you keep it private. Don't commit it to a
+     * repository, and if your token is ever compromised, contact with us to
+     * revoke it immediately.
+     *
+     * @since 1.1.0
+     */
+    attestationToken?: string;
+
     /**
      * The DOM element selector used by the autoload feature to find the element
      * where show the application.
@@ -83,7 +96,7 @@ declare module '@playon-network/engine' {
     selector?: string;
 
     /**
-     * Tells to the engone if it should load automatically or not.
+     * Tells to the engine if it should load automatically or not.
      * 
      * @default false
      * @since 1.0.0

@@ -23,12 +23,14 @@ import { initializeFantasyApp } from '@playon-network/fantasy';
 // Your web app's PlayON Network configuration.
 //
 // isTesting is optional, by default is false.
+//
 // To use the staging environment of your application in the PlayON Network,
-// set the isTesting option to true.
+// set the isTesting option to true and provide your attestation token.
 const config = {
-  nid: '<playon-network-identifier>',
-  authToken: '<auth-token>',
-  isTesting: true,
+    nid: '<playon-network-identifier>',
+    authToken: '<auth-token>',
+    attestationToken: '<attestation-token>',
+    isTesting: true,
 };
 
 // Before start the application, you need to initialize the Engine.

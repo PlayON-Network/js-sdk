@@ -15,6 +15,7 @@ export default class PlayonNetworkEngine {
    */
   constructor(config) {
     const nid = config.nid;
+    let env;
 
     if (!nid) {
       throw new Error('Your Playon Network ID is required.');
@@ -24,9 +25,19 @@ export default class PlayonNetworkEngine {
       throw new Error('An Auth Token is required.');
     }
 
+    if (config.isTesting && !config.attestationToken) {
+      throw new Error('An Attestation Token is required in testing mode.');
+    }
+
     this._config = defaults(config, PlayonNetworkEngine._defaultOptions);
 
-    const env = this._config.isTesting ? 'staging' : 'www';
+    if (this._config.isTesting && this._config.attestationToken) {
+      env = 'staging';
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = this._config.attestationToken;
+    } else {
+      env = 'www';
+    }
+
     this._base = `https://${env}.playon.network/app/${nid}/`;
   }
 
@@ -85,6 +96,7 @@ export default class PlayonNetworkEngine {
   static _defaultOptions = {
     nid: null,
     authToken: null,
+    attestationToken: null,
     shouldAutoload: false,
     selector: '#fantasy_app',
     isTesting: false,
