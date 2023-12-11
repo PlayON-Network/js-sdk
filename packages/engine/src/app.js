@@ -97,6 +97,9 @@ export default class PlayonNetworkApp {
     _flutter.loader.loadEntrypoint({
       entrypointUrl: `${this._engine.baseUrl}${this._entrypoint}.js`,
       onEntrypointLoaded: this._onEntrypointLoaded.bind(this),
+      serviceWorker: {
+        serviceWorkerVersion: serviceWorkerVersion,
+      },
     });
   }
 
