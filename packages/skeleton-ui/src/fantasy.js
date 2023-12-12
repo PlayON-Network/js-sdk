@@ -1,3 +1,20 @@
+/**
+ * @license
+ * Copyright 2023 PlayON Technologies
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import {LitElement, html, css} from 'lit';
 import {skeletonBoxSizing} from "./styles.js";
 import "./parts/drawer.js";
@@ -12,8 +29,10 @@ export default class FantasySkeleton extends LitElement {
             z-index: 1;
             position: absolute;
             display: flex;
-            width: 100%;
-            height: 100%;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
             background-color: var(--background-color, #F2F3F5);
             transition: opacity 350ms ease-in-out;
           }
@@ -53,6 +72,7 @@ export default class FantasySkeleton extends LitElement {
     }
 
     _getScreen() {
+        let screen;
         const parts = window.location.hash
             .replace(/#\/|#/, '')
             .split('/');
@@ -60,10 +80,12 @@ export default class FantasySkeleton extends LitElement {
         const isMultisport = this._isMultisport(parts);
 
         if (isMultisport) {
-            return parts[2];
+            screen = parts[2];
+        } else {
+            screen = parts[0];
         }
 
-        return parts[0];
+        return screen || 'teams';
     }
 
     _isMultisport(parts) {
