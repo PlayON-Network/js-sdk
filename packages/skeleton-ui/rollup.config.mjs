@@ -2,7 +2,7 @@ import {
     buildCjs,
     buildDeps,
     buildEsm,
-    copyTypes
+    copyTypes, packageFileName
 } from '../../rollup.config.mjs';
 import pkg from './package.json' assert { type: "json" };
 import terser from '@rollup/plugin-terser';
@@ -23,12 +23,14 @@ const options = {
     preserveEntrySignatures: 'strict',
 }
 
+const name = packageFileName(pkg);
+
 export default [
     ...buildCjs(pkg, deps, plugins, options),
     ...buildEsm(pkg, deps, plugins, options),
     {
         input: 'src/browser.js',
-        output: [{ file: 'dist/index.min.js', format: 'es', sourcemap: true }],
+        output: [{ file: `cdn/${name}.js`, format: 'es', sourcemap: true }],
         preserveEntrySignatures: 'strict',
         plugins: [
             resolve(),

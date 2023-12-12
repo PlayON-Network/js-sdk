@@ -3,6 +3,9 @@ import copy from 'rollup-plugin-copy'
 import typescript from 'typescript';
 import json from '@rollup/plugin-json';
 import summary from 'rollup-plugin-summary';
+import resolve from "@rollup/plugin-node-resolve";
+import {babel} from "@rollup/plugin-babel";
+import terser from "@rollup/plugin-terser";
 
 export const copyTypes = copy({
   targets: [{ src: 'src/types.d.ts', dest: 'dist' }]
@@ -90,4 +93,44 @@ export function buildCjs(pkg, deps, plugins = es5BuildPlugins, options) {
       ...options,
     },
   ];
+}
+
+export function buildCDN(pkg, deps, options) {
+  options = options || {};
+  const filename = packageFileName(pkg);
+  const name = filename.split('@')[0];
+
+  return [
+    {
+      input: 'src/main.js',
+      output: {
+        file: `cdn/${filename}.js`,
+        format: 'iife',
+        name: `playon_network.${name}`,
+        sourcemap: true,
+        globals: {
+          '@playon-network/engine': 'this.playon_network.engine',
+        }
+      },
+      preserveEntrySignatures: 'strict',
+      external: id => deps.some(dep => id === dep || id.startsWith(`${dep}/`)),
+      plugins: [
+        resolve(),
+        babel({ babelHelpers: 'bundled' }),
+        terser({
+          format: { comments: false },
+          compress: true
+        }),
+        summary(),
+      ],
+      ...options,
+    },
+  ];
+}
+
+export function packageFileName(pkg) {
+  const name = pkg.name.split('/')[1];
+  const version = pkg.version;
+
+  return `${name}@${version}`;
 }
