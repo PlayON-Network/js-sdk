@@ -86,6 +86,11 @@ declare module '@playon-network/engine' {
     attestationToken?: string;
 
     /**
+     * @since 1.1.0
+     */
+    serviceWorkerVersion?: string;
+
+    /**
      * The DOM element selector used by the autoload feature to find the element
      * where show the application.
      * 

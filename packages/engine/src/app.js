@@ -115,7 +115,7 @@ export default class PlayonNetworkApp {
       entrypointUrl: `${this._engine.baseUrl}${this._entrypoint}.js`,
       onEntrypointLoaded: this._onEntrypointLoaded.bind(this),
       serviceWorker: {
-        serviceWorkerVersion: serviceWorkerVersion,
+        serviceWorkerVersion: this._engine._config.serviceWorkerVersion,
       },
     });
   }
