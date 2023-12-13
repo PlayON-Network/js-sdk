@@ -119,8 +119,6 @@ export default class PlayonNetworkEngine {
     nid: null,
     authToken: null,
     attestationToken: null,
-    shouldAutoload: false,
-    selector: '#fantasy_app',
     isTesting: false,
     _entrypoint: 'engine.js',
   };

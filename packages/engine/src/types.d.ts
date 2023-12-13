@@ -84,24 +84,6 @@ declare module '@playon-network/engine' {
      * @since 1.1.0
      */
     attestationToken?: string;
-
-    /**
-     * The DOM element selector used by the autoload feature to find the element
-     * where show the application.
-     * 
-     * @default '#fantasy_app'
-     * @see {@link EngineOptions.shouldAutoload}
-     * @since 1.0.0
-     */
-    selector?: string;
-
-    /**
-     * Tells to the engine if it should load automatically or not.
-     * 
-     * @default false
-     * @since 1.0.0
-     */
-    shouldAutoload?: boolean;
     
     /**
      * Configure the Engine in test mode to use the staging environment
