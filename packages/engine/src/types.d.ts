@@ -101,12 +101,15 @@ declare module '@playon-network/engine' {
 
     /**
      * The attestation token is required to pass the device verification when
-     * using a development/staging environment.
+     * using a **localhost** environment.
      *
      * Because this token allows access to the app resources without a valid
-     * device, it is crucial that you keep it private. Don't commit it to a
-     * repository, and if your token is ever compromised, contact with us to
-     * revoke it immediately.
+     * device, it is crucial that you keep it private.
+     *
+     * Don't commit it to a repository and don't deploy it to any environment.
+     *
+     * If your token is ever compromised, contact with us to revoke it
+     * immediately and provide you a new one.
      *
      * @since 1.1.0
      */
