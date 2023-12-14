@@ -22,6 +22,11 @@ import "./parts/main.js";
 import "./components/logo.js";
 
 export default class FantasySkeleton extends LitElement {
+    constructor() {
+        super();
+        window.addEventListener('flutter-first-frame', this._fadeOut.bind(this));
+    }
+
     static styles = [
         skeletonBoxSizing,
         css`
@@ -36,12 +41,30 @@ export default class FantasySkeleton extends LitElement {
             background-color: var(--background-color, #F2F3F5);
             transition: opacity 350ms ease-in-out;
           }
+
+          .skeleton--fade-out {
+            opacity: 0.0;
+          }
           
           .skeleton--authentication {
             background-color: #fff;
           }
         `,
     ];
+
+    _fadeOut() {
+        setTimeout(() => {
+            const element = this.shadowRoot.getElementById('po-skeleton');
+
+            if (element) {
+                element.classList.add('skeleton--fade-out');
+
+                setTimeout( () => {
+                    this.remove();
+                },  350);
+            }
+        }, 350);
+    }
 
     render() {
         const screen = this._getScreen();

@@ -39,11 +39,20 @@ declare module '@playon-network/engine' {
   export interface PlayonNetworkApp {
     /**
      * @protected
-     * @param {import("@playon-network/engine").PlayonNetworkEngine} engine
-     * @param {HTMLElement} element
+     * @param {PlayonNetworkEngine} engine
+     * @param {HTMLElement|string} element
      * @since 1.0.0
      */
-    constructor(engine: PlayonNetworkEngine, element: HTMLElement): void;
+    constructor(engine: PlayonNetworkEngine, element: HTMLElement|string): void;
+
+    /**
+     * @protected
+     * @param {PlayonNetworkEngine} engine
+     * @param {HTMLElement|string} element
+     * @param {AppOptions} [options]
+     * @since 1.0.0
+     */
+    constructor(engine: PlayonNetworkEngine, element: HTMLElement|string, options: PlayonNetworkEngine): void;
 
     /**
      * @package
@@ -51,6 +60,24 @@ declare module '@playon-network/engine' {
      * @since 1.0.0
      */
     load(): PlayonNetworkApp;
+  }
+
+  /**
+   * @private
+   * @since 1.1.0
+   */
+  export interface AppOptions {
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    serviceWorkerVersion?: string;
+
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    entrypoint?: string;
   }
 
   /**
@@ -84,11 +111,6 @@ declare module '@playon-network/engine' {
      * @since 1.1.0
      */
     attestationToken?: string;
-
-    /**
-     * @since 1.1.0
-     */
-    serviceWorkerVersion?: string;
     
     /**
      * Configure the Engine in test mode to use the staging environment
@@ -98,5 +120,24 @@ declare module '@playon-network/engine' {
      * @since 1.0.0
      */
     isTesting?: boolean;
+
+    /**
+     * @private
+     * @default false
+     * @since 1.0.0
+     */
+    isStandalone?: boolean;
+
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    entrypoint?: string;
+
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    path?: string;
   }
 }
