@@ -39,11 +39,20 @@ declare module '@playon-network/engine' {
   export interface PlayonNetworkApp {
     /**
      * @protected
-     * @param {import("@playon-network/engine").PlayonNetworkEngine} engine
-     * @param {HTMLElement} element
+     * @param {PlayonNetworkEngine} engine
+     * @param {HTMLElement|string} element
      * @since 1.0.0
      */
-    constructor(engine: PlayonNetworkEngine, element: HTMLElement): void;
+    constructor(engine: PlayonNetworkEngine, element: HTMLElement|string): void;
+
+    /**
+     * @protected
+     * @param {PlayonNetworkEngine} engine
+     * @param {HTMLElement|string} element
+     * @param {AppOptions} [options]
+     * @since 1.0.0
+     */
+    constructor(engine: PlayonNetworkEngine, element: HTMLElement|string, options: PlayonNetworkEngine): void;
 
     /**
      * @package
@@ -51,6 +60,24 @@ declare module '@playon-network/engine' {
      * @since 1.0.0
      */
     load(): PlayonNetworkApp;
+  }
+
+  /**
+   * @private
+   * @since 1.1.0
+   */
+  export interface AppOptions {
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    serviceWorkerVersion?: string;
+
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    entrypoint?: string;
   }
 
   /**
@@ -74,34 +101,19 @@ declare module '@playon-network/engine' {
 
     /**
      * The attestation token is required to pass the device verification when
-     * using a development/staging environment.
+     * using a **localhost** environment.
      *
      * Because this token allows access to the app resources without a valid
-     * device, it is crucial that you keep it private. Don't commit it to a
-     * repository, and if your token is ever compromised, contact with us to
-     * revoke it immediately.
+     * device, it is crucial that you keep it private.
+     *
+     * Don't commit it to a repository and don't deploy it to any environment.
+     *
+     * If your token is ever compromised, contact with us to revoke it
+     * immediately and provide you a new one.
      *
      * @since 1.1.0
      */
     attestationToken?: string;
-
-    /**
-     * The DOM element selector used by the autoload feature to find the element
-     * where show the application.
-     * 
-     * @default '#fantasy_app'
-     * @see {@link EngineOptions.shouldAutoload}
-     * @since 1.0.0
-     */
-    selector?: string;
-
-    /**
-     * Tells to the engine if it should load automatically or not.
-     * 
-     * @default false
-     * @since 1.0.0
-     */
-    shouldAutoload?: boolean;
     
     /**
      * Configure the Engine in test mode to use the staging environment
@@ -111,5 +123,24 @@ declare module '@playon-network/engine' {
      * @since 1.0.0
      */
     isTesting?: boolean;
+
+    /**
+     * @private
+     * @default false
+     * @since 1.0.0
+     */
+    isStandalone?: boolean;
+
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    entrypoint?: string;
+
+    /**
+     * @private
+     * @since 1.1.0
+     */
+    path?: string;
   }
 }

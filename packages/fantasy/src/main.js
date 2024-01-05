@@ -16,19 +16,21 @@
  */
 
 import FantasyApp from "./app.js";
-import { PlayonNetworkApp } from "@playon-network/engine";
 
 /**
  * @param {import("@playon-network/engine").PlayonEngine} engine
- * @param {HTMLElement} element
- * @returns {PlayonNetworkApp}
+ * @param {HTMLElement|string} [element]
+ * @param {import("@playon-network/engine").AppOptions} [options]
+ *
+ * @returns {import("@playon-network/engine").PlayonNetworkApp}
+ *
  * @since 1.0.0
  */
-export function initializeFantasyApp(engine, element, _options) {
+export function initializeFantasyApp(engine, element, options) {
   /**
-   * @type {PlayonNetworkApp}
+   * @type {import("@playon-network/engine").PlayonNetworkApp}
    */
-  const app = FantasyApp.initialize(engine, element, _options);
+  const app = FantasyApp.initialize(engine, element, options);
   app.load();
 
   return app;

@@ -15,7 +15,44 @@
  * limitations under the License.
  */
 
-import Engine from './engine.js';
+import defaults from "./utils/defaults.js";
+
+/**
+ * @private
+ * @since 1.1.0
+ */
+class PlayonNetworkEvent {
+  /**
+   * @type {string}
+   * @since 1.1.0
+   */
+  static kLoading = 'loading';
+
+  /**
+   * @type {string}
+   * @since 1.1.0
+   */
+  static kLoaded = 'loaded';
+
+  /**
+   * @type {string}
+   * @since 1.1.0
+   */
+  static kStarting = 'starting';
+
+  /**
+   * @type {string}
+   * @since 1.1.0
+   */
+  static kStarted = 'started';
+
+  /**
+   * @package
+   * @type {string}
+   * @since 1.1.0
+   */
+  static _kRendered = 'flutter-first-frame';
+}
 
 /**
  * Playon Network App abstract class.
@@ -28,20 +65,27 @@ export default class PlayonNetworkApp {
   /**
    * @package
    *
-   * @param {Engine} engine
-   * @param {HTMLElement} element
-   * @param {string} entrypoint
+   * @param {import("@playon-network/engine").PlayonEngine} engine
+   * @param {HTMLElement|string|import("@playon-network/engine").AppOptions} [element]
+   * @param {import("@playon-network/engine").AppOptions} [config]
    *
    * @since 1.0.0
    */
-  constructor(engine, element, entrypoint) {
+  constructor(engine, element, config) {
     if (!engine.isLoaded) {
       throw new Error("Engine is not loaded.");
     }
 
+    if (typeof element === 'string') {
+      this._element = document.querySelector(element);
+    } else if (element instanceof HTMLElement) {
+      this._element = element;
+    } else if (!config) {
+      config = element;
+    }
+
     this._engine = engine;
-    this._element = element;
-    this._entrypoint = entrypoint;
+    this._config = defaults(config || {}, PlayonNetworkApp._defaultOptions);
   }
 
   /**
@@ -53,52 +97,36 @@ export default class PlayonNetworkApp {
   static _instances = {};
 
   /**
+   * @private
+   * @type {import("@playon-network/engine").AppOptions}
+   *
+   * @since 1.0.0
+   */
+  static _defaultOptions = {
+    serviceWorkerVersion: null,
+    entrypoint: 'app.js',
+  };
+
+  /**
    * @package
-   * @type {PlayonNetworkApp}
+   *
+   * @param {string} name
+   * @param {Function} [initializer]
+   *
+   * @return {PlayonNetworkApp}
    * 
    * @since 1.0.0
    */
-  static getInstance(entrypointName) {
-    const instance = PlayonNetworkApp._instances[entrypointName];
+  static getInstance(name, initializer) {
+    let instance = PlayonNetworkApp._instances[name];
 
     if (!instance) {
-      throw new Error(`You must initialize the application before use it.`);
-    }
+      if (!initializer) {
+        throw new Error(`You must initialize the application before use it.`);
+      }
 
-    return instance;
-  }
-
-  /**
-   * Check if the application is initialized and ready to be loaded.
-   *
-   * @public
-   * @type {boolean}
-   * @since 1.0.0
-   */
-  get isLoaded() {
-    return !!this._engineInitializer;
-  }
-
-  /**
-   * @package
-   *
-   * @param {PlayonNetworkEngine} engine
-   * @param {HTMLElement} element
-   * @param {string} entrypoint
-   * @param {Function} initializer
-   *
-   * @since 1.0.0
-   */
-  static initialize(engine, element, entrypoint, initializer) {
-    let instance = PlayonNetworkApp._instances[entrypoint];
-
-    if (!instance) {
-      instance = initializer(engine, element, entrypoint);
-      PlayonNetworkApp._instances[entrypoint] = instance;
-    } else {
-      instance._element = element;
-      instance._engine = engine;
-      instance._entrypoint = entrypoint;
+      instance = initializer();
+      PlayonNetworkApp._instances[name] = instance;
     }
 
     return instance;
@@ -109,11 +137,14 @@ export default class PlayonNetworkApp {
    * @since 1.0.0
    */
   load() {
-    this._element.dispatchEvent(new Event("loading"));
+    this._dispatchEvent(new Event(PlayonNetworkEvent.kLoading));
 
     _flutter.loader.loadEntrypoint({
-      entrypointUrl: `${this._engine.baseUrl}${this._entrypoint}.js`,
+      entrypointUrl: `${this._engine.baseUrl}${this._config.entrypoint}`,
       onEntrypointLoaded: this._onEntrypointLoaded.bind(this),
+      serviceWorker: {
+        serviceWorkerVersion: this._engine._config.serviceWorkerVersion,
+      },
     });
   }
 
@@ -123,24 +154,48 @@ export default class PlayonNetworkApp {
    * @since 1.0.0
    */
   async _onEntrypointLoaded(engineInitializer) {
-    this._element.dispatchEvent(new Event("loaded"));
-    this._element.dispatchEvent(new Event("initializing"));
+    this._listenFirstFrameEvent();
 
     const appRunner = await engineInitializer.initializeEngine({
       assetBase: this._engine.baseUrl,
       hostElement: this._element,
     });
 
-    this._element.dispatchEvent(new Event("initialized"));
-    this._element.dispatchEvent(new Event("starting"));
+    this._dispatchEvent(new Event(PlayonNetworkEvent.kLoaded));
+    this._dispatchEvent(new Event(PlayonNetworkEvent.kStarting));
+
     await appRunner.runApp();
-    this._element.dispatchEvent(new Event("started"));
   }
 
-  activate() {
-    this._onEntrypointLoaded(this._engineInitializer, this._element);
+  /**
+   * @private
+   * @since 1.1.0
+   */
+  _listenFirstFrameEvent() {
+    this.__onFirstFrame = this._onFirstFrame.bind(this);
+    window.addEventListener(PlayonNetworkEvent._kRendered, this.__onFirstFrame);
   }
 
-  deactivate() {
+  /**
+   * @private
+   * @since 1.1.0
+   */
+  _onFirstFrame() {
+    window.removeEventListener(PlayonNetworkEvent._kRendered, this.__onFirstFrame);
+    this._dispatchEvent(new Event(PlayonNetworkEvent.kStarted));
+  }
+
+  /**
+   * @private
+   * @param {Event} event
+   * @return {boolean}
+   * @since 1.1.0
+   */
+  _dispatchEvent(event) {
+    if (!this._element) {
+      return window.dispatchEvent(event);
+    } else {
+      return this._element.dispatchEvent(event);
+    }
   }
 }

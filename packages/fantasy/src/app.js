@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { PlayonNetworkApp, PlayonNetworkEngine } from "@playon-network/engine";
+import { PlayonNetworkApp } from "@playon-network/engine";
 
 /**
  * Playon Network App abstract class.
@@ -32,22 +32,21 @@ export default class FantasyApp extends PlayonNetworkApp {
    * @since 1.0.0
    */
   static get instance() {
-    return PlayonNetworkApp.getInstance(FantasyApp._entrypointName);
+    return PlayonNetworkApp.getInstance(FantasyApp._name);
   }
 
   /**
    * @package
    *
-   * @param {PlayonNetworkEngine} engine
-   * @param {HTMLElement} element
+   * @param {import("@playon-network/engine").PlayonEngine} engine
+   * @param {HTMLElement|string} [element]
+   * @param {import("@playon-network/engine").AppOptions} [options]
    *
    * @since 1.0.0
    */
-  static initialize(engine, element, _options) {
-    const entrypoint = _options._entrypoint || FantasyApp._entrypointName;
-
-    return PlayonNetworkApp.initialize(engine, element, entrypoint, () => {
-      return new FantasyApp(engine, element, entrypoint);
+  static initialize(engine, element, options) {
+    return PlayonNetworkApp.getInstance(FantasyApp._name, () => {
+      return new FantasyApp(engine, element, options);
     });
   }
 
@@ -56,7 +55,7 @@ export default class FantasyApp extends PlayonNetworkApp {
    * @type {string}
    * @since 1.0.0
    */
-  static get _entrypointName() {
-    return 'app';
+  static get _name() {
+    return 'fantasy';
   }
 }

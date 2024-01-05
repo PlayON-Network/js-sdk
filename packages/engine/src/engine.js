@@ -32,7 +32,6 @@ export default class PlayonNetworkEngine {
    */
   constructor(config) {
     const nid = config.nid;
-    const ulh = config._ulh;
     let env;
 
     if (!nid) {
@@ -56,10 +55,12 @@ export default class PlayonNetworkEngine {
       env = 'www';
     }
 
-    if (ulh === true) {
-      this._base = `${location.protocol}//localhost:${location.port}/`;
+    const path = this._config.path;
+
+    if (this._config.isStandalone) {
+      this._base = `${location.origin}${path}`;
     } else {
-      this._base = `https://${env}.playon.network/app/${nid}/`;
+      this._base = `https://${env}.playon.network${path}${nid}/`;
     }
   }
 
@@ -119,10 +120,10 @@ export default class PlayonNetworkEngine {
     nid: null,
     authToken: null,
     attestationToken: null,
-    shouldAutoload: false,
-    selector: '#fantasy_app',
     isTesting: false,
-    _entrypoint: 'engine.js',
+    isStandalone: false,
+    path: '/app/',
+    entrypoint: 'engine.js',
   };
 
   /**
@@ -161,7 +162,7 @@ export default class PlayonNetworkEngine {
   load() {
     return new Promise((resolve) => {
       if (!this._loaded) {
-        const scripts = [this._config._entrypoint];
+        const scripts = [this._config.entrypoint];
 
         this._resolveCounter = scripts.length;
 
