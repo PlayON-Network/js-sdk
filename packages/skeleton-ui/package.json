@@ -38,7 +38,7 @@
   "scripts": {
     "build": "rollup --config",
     "test": "c8 mocha 'src/**/*.test.js'",
-    "serve:skeleton": "rollup --config && node ../../server.js --path packages/skeleton-ui/src/test --assets packages/skeleton-ui/dist"
+    "serve:skeleton": "rollup --config && node ../../server.js --path packages/skeleton-ui/src/test --cdn packages/skeleton-ui/cdn"
   },
   "bugs": {
     "url": "https://github.com/PlayON-Network/js-sdk/issues"

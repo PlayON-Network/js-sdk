@@ -1,0 +1,15 @@
+po-fantasy-skeleton {
+    --skeleton-color: black;
+    --item-color: turquoise;
+    --background-color: yellow;
+    --drawer-color: red;
+    --drawer-divider-color: magenta;
+    --drawer-border-color: black;
+    --app-bar-button-color: blue;
+    --app-bar-event-selector-color: orange;
+    --app-bar-color: red;
+    --app-bar-border-color: black;
+    --secondary-app-bar-color: green;
+    --tertiary-app-bar-color: brown;
+    --bottom-bar-color: crimson;
+}

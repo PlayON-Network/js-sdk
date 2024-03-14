@@ -1,49 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="assets/index.min.js" defer></script>
+    <title>PLAYON Network Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
 
-    <style>
-        body, html {
-            padding: 0;
-            margin: 0;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        po-fantasy-skeleton {
-            --skeleton-color: black;
-            --item-color: turquoise;
-            --background-color: yellow;
-            --drawer-color: red;
-            --drawer-divider-color: magenta;
-            --drawer-border-color: black;
-            --app-bar-button-color: blue;
-            --app-bar-event-selector-color: orange;
-            --app-bar-color: red;
-            --app-bar-border-color: black;
-            --secondary-app-bar-color: green;
-        }
-    </style>
+    <script src="cdn/skeleton-ui@1.0.0.js" defer></script>
+    <link rel="stylesheet" href="assets/styles.css">
+    <!-- <link rel="stylesheet" href="assets/theme.css"> -->
 </head>
 
 <body>
     <po-fantasy-skeleton>
-        <!-- Example with logos
-        <po-skeleton-logo
-            slot="drawer-logo"
-            size="sm"
-            src="https://www.motorsportgaminghub.com/app/skeleton_screen/logo-small.svg"
-        ></po-skeleton-logo>
-
-        <po-skeleton-logo
-            slot="auth-logo"
-            size="md"
-            src="https://www.motorsportgaminghub.com/app/skeleton_screen/logo-small.svg"
-        ></po-skeleton-logo>
-        -->
+        <po-skeleton-logo slot="drawer-logo" size="sm" src="assets/app-logo.png" />
+        <po-skeleton-logo slot="auth-logo" size="md" src="assets/app-logo.png" />
     </po-fantasy-skeleton>
 </body>
 </html>
