@@ -7,7 +7,9 @@ const argv = yargs(hideBin(process.argv)).argv
 const app = express();
 const port = argv.port || process.env.PORT || 8080;
 
-app.use('/assets', express.static(path.join(__dirname, argv.assets)))
+app.use('/cdn', express.static(path.join(__dirname, argv.cdn ?? 'packages/skeleton-ui/cdn')));
+app.use('/assets', express.static(path.join(__dirname, argv.assets ?? 'packages/skeleton-ui/src/test/assets')));
+
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, `${argv.path}/index.html`));
 });
