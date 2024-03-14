@@ -19,6 +19,8 @@ import {LitElement, html, css} from 'lit';
 import {skeletonBoxSizing} from "../styles.js";
 import "../components/app-bar.js";
 import "../components/app-bar--secondary.js";
+import "../components/app-bar--tertiary.js";
+import "../components/bottom-bar.js";
 import "./main/authentication.js";
 import "./main/lobby.js";
 import "./main/rosters.js";
@@ -40,12 +42,26 @@ class SkeletonFantasyMain extends LitElement {
 
     render() {
         const content = this._renderContent(this.screen);
+        const tertiaryBar = this._renderTertiaryBar(this.screen);
 
         return html`
             <po-skeleton-app-bar></po-skeleton-app-bar>
             <po-skeleton-app-bar--secondary></po-skeleton-app-bar--secondary>
+            ${tertiaryBar}
             ${content}
+            <po-skeleton-bottom-bar></po-skeleton-bottom-bar>
         `;
+    }
+
+    _renderTertiaryBar(screen) {
+        switch (screen) {
+            case 'lineups':
+            case 'teams':
+                return html`<po-skeleton-app-bar--tertiary></po-skeleton-app-bar--tertiary>`;
+
+            default:
+                return html``;
+        }
     }
 
     _renderContent(screen) {

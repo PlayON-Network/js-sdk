@@ -19,26 +19,22 @@ import {LitElement, html, css} from 'lit';
 import {skeletonAnimated, skeletonBoxSizing, skeletonIcon} from "../styles.js";
 import {skeletonAppBarStyles} from "./app-bar.js";
 
-class SkeletonAppBarSecondary extends LitElement {
+class SkeletonAppBarTertiary extends LitElement {
     static styles = [
         skeletonBoxSizing,
         skeletonAnimated,
         skeletonIcon,
         skeletonAppBarStyles,
         css`
-        .skeleton-app-bar--secondary {
-            background-color: var(--secondary-app-bar-color, var(--app-bar-color, #fff));
-            height: 64px;
-            gap: 30px;
+        .skeleton-app-bar--tertiary {
+            background-color: var(--tertiary-app-bar-color, var(--app-bar-color, #fff));
+            height: 40px;
+            gap: 20px;
         }
 
-        .skeleton-app-bar__label, .skeleton-app-bar__button, .skeleton-app-bar__spacer {
-            display: none;
-        }
-            
         @media (min-width: 768px) {
-            .skeleton-app-bar__label, .skeleton-app-bar__button, .skeleton-app-bar__spacer {
-                display: block;
+            .skeleton-app-bar--tertiary {
+                display: none;
             }
         }
         `,
@@ -46,16 +42,15 @@ class SkeletonAppBarSecondary extends LitElement {
 
     render() {
         return html`
-            <div class="skeleton-app-bar skeleton-app-bar--secondary">
-                <div class="skeleton-animated skeleton-app-bar__event-selector"></div>
+            <div class="skeleton-app-bar skeleton-app-bar--tertiary">
+                <div class="skeleton-animated skeleton-app-bar__label"></div>
+                <div class="skeleton-animated skeleton-app-bar__label"></div>
                 <div class="skeleton-app-bar__spacer"></div>
-                <div class="skeleton-animated skeleton-app-bar__label"></div>
-                <div class="skeleton-animated skeleton-app-bar__label"></div>
-                <div class="skeleton-animated skeleton-app-bar__label"></div>
-                <div class="skeleton-animated skeleton-app-bar__button"></div>
+                <div class="skeleton-animated skeleton-icon"></div>
+                <div class="skeleton-animated skeleton-icon"></div>
             </div>
         `;
     }
 }
 
-customElements.define('po-skeleton-app-bar--secondary', SkeletonAppBarSecondary);
+customElements.define('po-skeleton-app-bar--tertiary', SkeletonAppBarTertiary);

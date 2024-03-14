@@ -19,17 +19,30 @@ import {LitElement, html, css} from 'lit';
 import {
     skeletonAnimated,
     skeletonBoxSizing,
-    skeletonIcon
+    skeletonIconButton
 } from "../styles.js";
 
 export const skeletonAppBarStyles = css`
     .skeleton-app-bar {
         background-color: var(--app-bar-color, #fff);
-        height: 72px;
+        height: 64px;
         border-bottom: var(--app-bar-border-color, #ECECEE) 0.5px solid;
         display: flex;
-        padding: 10px 40px;
+        padding: 10px 15px;
         align-items: center;
+    }
+
+    @media (min-width: 768px) {
+        .skeleton-app-bar {
+            height: 72px;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+    }
+    
+    .skeleton-app-bar__spacer {
+        width: 100%;
+        flex: 1;
     }
 
     .skeleton-app-bar__title {
@@ -39,16 +52,19 @@ export const skeletonAppBarStyles = css`
         background-color: var(--skeleton-color, #D1D6DE);
     }
 
-    .skeleton-app-bar__icon {
+    .skeleton-app-bar__more-button {
         margin-left: auto;
+    }
+    
+    .skeleton-app-bar__burger-button {
+        margin-right: 20px;
     }
 
     .skeleton-app-bar__event-selector {
-        width: 430px;
+        width: 100%;
         height: 100%;
         border-radius: 4px;
         background-color: var(--app-bar-event-selector-color, #EBECF0);
-        margin-right: auto;
     }
     
     .skeleton-app-bar__label {
@@ -56,7 +72,6 @@ export const skeletonAppBarStyles = css`
         height: 16px;
         border-radius: 3px;
         background-color: var(--skeleton-color, #D1D6DE);
-        margin-left: 30px;
     }
     
     .skeleton-app-bar__button {
@@ -64,7 +79,16 @@ export const skeletonAppBarStyles = css`
         height: 30px;
         border-radius: 4px;
         background-color: var(--app-bar-button-color, #F2F2F2);
-        margin-left: 30px;
+    }
+
+    @media (min-width: 768px) {
+        .skeleton-app-bar__burger-button {
+            display: none;
+        }
+        
+        .skeleton-app-bar__event-selector {
+            width: 430px;
+        }
     }
 `;
 
@@ -72,15 +96,16 @@ class SkeletonAppBar extends LitElement {
     static styles = [
         skeletonBoxSizing,
         skeletonAnimated,
-        skeletonIcon,
+        skeletonIconButton,
         skeletonAppBarStyles,
     ];
 
     render() {
         return html`
             <div class="skeleton-app-bar">
+                <div class="skeleton-animated skeleton-icon-button skeleton-app-bar__burger-button"></div>
                 <div class="skeleton-animated skeleton-app-bar__title"></div>
-                <div class="skeleton-animated skeleton-icon skeleton-app-bar__icon"></div>
+                <div class="skeleton-animated skeleton-icon-button skeleton-app-bar__more-button"></div>
             </div>
         `;
     }

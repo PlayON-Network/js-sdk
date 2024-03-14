@@ -93,6 +93,15 @@ export const skeletonIcon = css`
   }
 `;
 
+export const skeletonIconButton = css`
+  .skeleton-icon-button {
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 4px;
+    background-color: var(--skeleton-color, #D1D6DE);
+  }
+`;
+
 export const skeletonLabel = css`
   .skeleton-label {
     width: 60px;

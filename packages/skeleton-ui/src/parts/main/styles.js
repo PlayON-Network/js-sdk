@@ -18,18 +18,24 @@
 import {css} from 'lit';
 
 export const skeletonMainContentStyles = css`
-  :host {
-    overflow: hidden;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-  }
+    :host {
+        overflow: hidden;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+    }
+    
+    .skeleton-main__item {
+        height: 100%;
+        border-radius: 10px;
+        margin: 15px;
+        background-color: var(--item-color, #EBECF0);
+    }
 
-  .skeleton-main__item {
-    height: 100%;
-    border-radius: 10px;
-    margin: 15px;
-    background-color: var(--item-color, #EBECF0);
-  }
+    @media (min-width: 768px) {
+        :host {
+            padding: 25px;
+        }
+    }
 `;

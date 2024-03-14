@@ -16,41 +16,38 @@
  */
 
 import {LitElement, html, css} from 'lit';
-import {skeletonBoxSizing} from "../styles.js";
+import {
+    skeletonBoxSizing,
+    skeletonAnimated,
+    skeletonIcon,
+    skeletonLabel, skeletonLabel_h12,
+} from "../../styles.js";
 
-export class SkeletonDrawer extends LitElement {
+class SkeletonBottomBarItem extends LitElement {
     static styles = [
         skeletonBoxSizing,
-        css`:host {
-            background-color: var(--drawer-color, #fff);
-            width: 74px;
-            height: 100%;
-            border-right: var(--drawer-border-color, #ECECEE) 1px solid;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            padding: 25px 15px 0;
-            overflow: hidden;
-            box-sizing: border-box;
-        }`,
+        skeletonAnimated,
+        skeletonIcon,
+        skeletonLabel,
+        skeletonLabel_h12,
         css`
-            @media (min-width: 768px) {
-                :host {
-                    display: flex;
-                }
-            }
-
-            @media (min-width: 1440px) {
-                :host {
-                    width: 250px;
-                }
-            }
+        :host {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
         `,
     ];
 
     render() {
-        return html`<slot></slot>`;
+        return html`
+            <div class="skeleton-bottom-bar__item__icon skeleton-icon skeleton-animated"></div>
+            <div class="skeleton-bottom-bar__item__label skeleton-label skeleton-label--h12 skeleton-animated"></div>
+        `;
     }
 }
 
-customElements.define('po-skeleton-drawer', SkeletonDrawer);
+customElements.define('po-skeleton-bottom-bar-item', SkeletonBottomBarItem);

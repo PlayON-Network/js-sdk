@@ -24,22 +24,52 @@ class SkeletonFantasyRosters extends LitElement {
         skeletonBoxSizing,
         skeletonAnimated,
         skeletonMainContentStyles,
-        css`:host {
-          display: flex;
-        }`,
-        css`@media (max-width: 1264px) {
-          :host {
-            justify-content: start;
-          }
-        }`,
-        css`.skeleton-main__item {
-          min-width: 350px;
-          max-height: 600px;
-        }`,
+        css`
+        :host {
+            display: flex;
+        }
+
+        .skeleton-main__item {
+            min-width: 350px;
+            max-height: 600px;
+        }
+
+        .skeleton-main__item:nth-child(1),
+        .skeleton-main__item:nth-child(2)
+        {
+            visibility: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            :host {
+                justify-content: start;
+            }
+
+            .skeleton-main__item:nth-child(1),
+            .skeleton-main__item:nth-child(2)
+            {
+                visibility: visible;
+            }
+
+            .skeleton-main__item:nth-child(4),
+            .skeleton-main__item:nth-child(5)
+            {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            :host {
+                justify-content: center;
+            }
+        }
+        `,
     ];
 
     render() {
         return html`
+            <div class="skeleton-animated skeleton-main__item"></div>
+            <div class="skeleton-animated skeleton-main__item"></div>
             <div class="skeleton-animated skeleton-main__item"></div>
             <div class="skeleton-animated skeleton-main__item"></div>
             <div class="skeleton-animated skeleton-main__item"></div>
