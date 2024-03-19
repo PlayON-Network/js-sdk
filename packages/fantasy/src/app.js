@@ -18,8 +18,8 @@
 import { PlayonNetworkApp } from "@playon-network/engine";
 
 /**
- * Playon Network App abstract class.
- * 
+ * Playon Network Fantasy App class.
+ *
  * @package
  * @type {import("@playon-network/fantasy").FantasyApp}
  * @since 1.0.0
@@ -28,7 +28,7 @@ export default class FantasyApp extends PlayonNetworkApp {
   /**
    * @package
    * @type {PlayonNetworkApp}
-   * 
+   *
    * @since 1.0.0
    */
   static get instance() {
@@ -39,15 +39,15 @@ export default class FantasyApp extends PlayonNetworkApp {
    * @package
    *
    * @param {import("@playon-network/engine").PlayonEngine} engine
-   * @param {HTMLElement|string} [element]
    * @param {import("@playon-network/engine").AppOptions} [options]
    *
    * @since 1.0.0
    */
-  static initialize(engine, element, options) {
-    return PlayonNetworkApp.getInstance(FantasyApp._name, () => {
-      return new FantasyApp(engine, element, options);
-    });
+  static initialize(engine, options = null) {
+    return PlayonNetworkApp.getInstance(
+      FantasyApp._name,
+      () => new FantasyApp(engine, options),
+    );
   }
 
   /**

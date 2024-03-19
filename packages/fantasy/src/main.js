@@ -30,8 +30,8 @@ export function initializeFantasyApp(engine, element, options) {
   /**
    * @type {import("@playon-network/engine").PlayonNetworkApp}
    */
-  const app = FantasyApp.initialize(engine, element, options);
-  app.load();
+  const app = FantasyApp.initialize(engine, options || element);
+  app.load(element);
 
   return app;
 }
