@@ -6,6 +6,8 @@ import summary from 'rollup-plugin-summary';
 import resolve from "@rollup/plugin-node-resolve";
 import {babel} from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
+import {rmSync} from "fs";
+import {join} from "path";
 
 export const copyTypes = copy({
   targets: [{ src: 'src/types.d.ts', dest: 'dist' }]
@@ -133,4 +135,17 @@ export function packageFileName(pkg) {
   const version = pkg.version;
 
   return `${name}@${version}`;
+}
+
+/**
+ * @param {string|string[]} names
+ */
+export function removeBuildDirs(names) {
+  if (typeof names === 'string') {
+    names = [names];
+  }
+
+  for (const name of names) {
+    rmSync(join(process.cwd(), name), { recursive: true });
+  }
 }
