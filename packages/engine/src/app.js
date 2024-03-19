@@ -16,47 +16,12 @@
  */
 
 import defaults from "./utils/defaults.js";
-
-/**
- * @private
- * @since 1.1.0
- */
-class PlayonNetworkEvent {
-  /**
-   * @type {string}
-   * @since 1.1.0
-   */
-  static kLoading = 'loading';
-
-  /**
-   * @type {string}
-   * @since 1.1.0
-   */
-  static kLoaded = 'loaded';
-
-  /**
-   * @type {string}
-   * @since 1.1.0
-   */
-  static kStarting = 'starting';
-
-  /**
-   * @type {string}
-   * @since 1.1.0
-   */
-  static kStarted = 'started';
-
-  /**
-   * @package
-   * @type {string}
-   * @since 1.1.0
-   */
-  static _kRendered = 'flutter-first-frame';
-}
+import {PlayonNetworkApplicationNotInitializedException, PlayonNetworkEngineNotLoadedException} from "./exception.js";
+import PlayonNetworkEventType from "./event-types.js";
 
 /**
  * Playon Network App abstract class.
- * 
+ *
  * @package
  * @type {import("@playon-network/engine").PlayonNetworkApp}
  * @since 1.0.0
@@ -66,22 +31,13 @@ export default class PlayonNetworkApp {
    * @package
    *
    * @param {import("@playon-network/engine").PlayonEngine} engine
-   * @param {HTMLElement|string|import("@playon-network/engine").AppOptions} [element]
    * @param {import("@playon-network/engine").AppOptions} [config]
    *
    * @since 1.0.0
    */
-  constructor(engine, element, config) {
+  constructor(engine, config) {
     if (!engine.isLoaded) {
-      throw new Error("Engine is not loaded.");
-    }
-
-    if (typeof element === 'string') {
-      this._element = document.querySelector(element);
-    } else if (element instanceof HTMLElement) {
-      this._element = element;
-    } else if (!config) {
-      config = element;
+      throw new PlayonNetworkEngineNotLoadedException();
     }
 
     this._engine = engine;
@@ -91,7 +47,7 @@ export default class PlayonNetworkApp {
   /**
    * @private
    * @type {Object<string, PlayonNetworkApp>}
-   * 
+   *
    * @since 1.0.0
    */
   static _instances = {};
@@ -114,7 +70,7 @@ export default class PlayonNetworkApp {
    * @param {Function} [initializer]
    *
    * @return {PlayonNetworkApp}
-   * 
+   *
    * @since 1.0.0
    */
   static getInstance(name, initializer) {
@@ -122,7 +78,7 @@ export default class PlayonNetworkApp {
 
     if (!instance) {
       if (!initializer) {
-        throw new Error(`You must initialize the application before use it.`);
+        throw new PlayonNetworkApplicationNotInitializedException();
       }
 
       instance = initializer();
@@ -131,39 +87,63 @@ export default class PlayonNetworkApp {
 
     return instance;
   }
-  
+
   /**
    * @package
+   * @param {HTMLElement|string} [element]
    * @since 1.0.0
    */
-  load() {
-    this._dispatchEvent(new Event(PlayonNetworkEvent.kLoading));
+  load(element) {
+    if (typeof element === 'string') {
+      this._element = document.querySelector(element);
+    } else if (element instanceof HTMLElement) {
+      this._element = element;
+    }
 
-    _flutter.loader.loadEntrypoint({
-      entrypointUrl: `${this._engine.baseUrl}${this._config.entrypoint}`,
-      onEntrypointLoaded: this._onEntrypointLoaded.bind(this),
-      serviceWorker: {
-        serviceWorkerVersion: this._engine._config.serviceWorkerVersion,
-      },
-    });
+    if (!this._loading) {
+      this._loading = true;
+      this._dispatchEvent(new Event(PlayonNetworkEventType.loading));
+
+      const serviceWorkerVersion = this._config.serviceWorkerVersion;
+      let serviceWorker = null;
+
+      if (serviceWorkerVersion && this._engine._config.isStandalone) {
+        serviceWorker = {
+          serviceWorkerVersion: serviceWorkerVersion,
+        };
+      }
+
+      // noinspection JSUnresolvedReference
+      _flutter.loader.loadEntrypoint({
+        entrypointUrl: `${this._engine.baseUrl}${this._config.entrypoint}`,
+        onEntrypointLoaded: async (engineInitializer) => {
+          this._dispatchEvent(new Event(PlayonNetworkEventType.loaded));
+          this._engineInitializer = engineInitializer;
+          await this.run();
+        },
+        serviceWorker: serviceWorker,
+      });
+    } else if (this._engineInitializer) {
+      // noinspection JSIgnoredPromiseFromCall
+      this.run();
+    }
   }
 
   /**
    * @private
-   * @param {*} engineInitializer 
    * @since 1.0.0
    */
-  async _onEntrypointLoaded(engineInitializer) {
+  async run() {
     this._listenFirstFrameEvent();
 
-    const appRunner = await engineInitializer.initializeEngine({
+    const appRunner = await this._engineInitializer.initializeEngine({
       assetBase: this._engine.baseUrl,
       hostElement: this._element,
     });
 
-    this._dispatchEvent(new Event(PlayonNetworkEvent.kLoaded));
-    this._dispatchEvent(new Event(PlayonNetworkEvent.kStarting));
+    this._dispatchEvent(new Event(PlayonNetworkEventType.starting));
 
+    // noinspection JSUnresolvedReference
     await appRunner.runApp();
   }
 
@@ -173,7 +153,7 @@ export default class PlayonNetworkApp {
    */
   _listenFirstFrameEvent() {
     this.__onFirstFrame = this._onFirstFrame.bind(this);
-    window.addEventListener(PlayonNetworkEvent._kRendered, this.__onFirstFrame);
+    window.addEventListener(PlayonNetworkEventType.rendered, this.__onFirstFrame);
   }
 
   /**
@@ -181,8 +161,8 @@ export default class PlayonNetworkApp {
    * @since 1.1.0
    */
   _onFirstFrame() {
-    window.removeEventListener(PlayonNetworkEvent._kRendered, this.__onFirstFrame);
-    this._dispatchEvent(new Event(PlayonNetworkEvent.kStarted));
+    window.removeEventListener(PlayonNetworkEventType.rendered, this.__onFirstFrame);
+    this._dispatchEvent(new Event(PlayonNetworkEventType.started));
   }
 
   /**

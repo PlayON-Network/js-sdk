@@ -16,10 +16,18 @@
  */
 
 import defaults from './utils/defaults.js';
+import {
+  PlayonNetworkNidRequiredException,
+  PlayonNetworkAuthTokenRequiredException,
+  PlayonNetworkAttestationTokenRequiredException,
+  PlayonNetworkPathWrongFormattedException,
+  PlayonNetworkEngineNotInitializedException,
+  PlayonNetworkUnableToLoadEngineException,
+} from './exception.js';
 
 /**
  * Playon Network Engine class.
- * 
+ *
  * @package
  * @type {import("@playon-network/engine").PlayonNetworkEngine}
  * @since 1.0.0
@@ -27,28 +35,28 @@ import defaults from './utils/defaults.js';
 export default class PlayonNetworkEngine {
   /**
    * @private
-   * @param {import("@playon-network/engine").EngineOptions} config 
+   * @param {import("@playon-network/engine").EngineOptions} config
    * @since 1.0.0
    */
   constructor(config) {
-    const nid = config.nid;
+    const nid = config?.nid;
     let env;
 
     if (!nid) {
-      throw new Error('Your Playon Network ID is required.');
+      throw new PlayonNetworkNidRequiredException();
     }
-    
+
     if (!config.authToken) {
-      throw new Error('An Auth Token is required.');
+      throw new PlayonNetworkAuthTokenRequiredException();
     }
 
     if (config.isTesting && !config.attestationToken) {
-      throw new Error('An Attestation Token is required in testing mode.');
+      throw new PlayonNetworkAttestationTokenRequiredException();
     }
 
     this._config = defaults(config, PlayonNetworkEngine._defaultOptions);
 
-    if (this._config.isTesting && this._config.attestationToken) {
+    if (this._config.isTesting && this._config.attestationToken && self) {
       env = 'staging';
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = this._config.attestationToken;
     } else {
@@ -56,6 +64,10 @@ export default class PlayonNetworkEngine {
     }
 
     const path = this._config.path;
+
+    if (!path.startsWith('/') || !path.endsWith('/')) {
+      throw new PlayonNetworkPathWrongFormattedException(path);
+    }
 
     if (this._config.isStandalone) {
       this._base = `${location.origin}${path}`;
@@ -72,7 +84,7 @@ export default class PlayonNetworkEngine {
    * @since 1.0.0
    */
   _base;
-  
+
   /**
    * Check if the engine is loaded and ready to be used.
    *
@@ -105,7 +117,7 @@ export default class PlayonNetworkEngine {
   /**
    * @private
    * @type {import("@playon-network/engine").PlayonNetworkEngine}
-   * 
+   *
    * @since 1.0.0
    */
   static _instance;
@@ -113,7 +125,7 @@ export default class PlayonNetworkEngine {
   /**
    * @private
    * @type {import("@playon-network/engine").EngineOptions}
-   * 
+   *
    * @since 1.0.0
    */
   static _defaultOptions = {
@@ -129,12 +141,12 @@ export default class PlayonNetworkEngine {
   /**
    * @package
    * @type {import("@playon-network/engine").PlayonNetworkEngine}
-   * 
+   *
    * @since 1.0.0
    */
   static get instance() {
     if (!PlayonNetworkEngine._instance) {
-      throw new Error('You must initialize the Engine before use it.');
+      throw new PlayonNetworkEngineNotInitializedException();
     }
 
     return PlayonNetworkEngine._instance;
@@ -142,7 +154,7 @@ export default class PlayonNetworkEngine {
 
   /**
    * @public
-   * @param {import("@playon-network/engine").EngineOptions} config 
+   * @param {import("@playon-network/engine").EngineOptions} config
    * @return {import("@playon-network/engine").PlayonNetworkEngine}
    * @since 1.0.0
    */
@@ -160,31 +172,39 @@ export default class PlayonNetworkEngine {
    * @since 1.0.0
    */
   load() {
-    return new Promise((resolve) => {
-      if (!this._loaded) {
+    if (this._loaded) {
+      return Promise.resolve(this);
+    }
+
+    if (!this._loading) {
+      this._loading = new Promise((resolve, reject) => {
         const scripts = [this._config.entrypoint];
 
         this._resolveCounter = scripts.length;
 
         for (const script of scripts) {
-          this._loadScript(script, resolve);
+          this._loadScript(script, resolve, reject);
         }
-      } else {
-        resolve(this);
-      }  
-    });
+      });
+    }
+
+    return this._loading;
   }
 
   /**
    * @private
    * @since 1.0.0
    */
-  _loadScript(fileName, resolve) {
+  _loadScript(fileName, resolve, reject) {
     const scriptElement = document.createElement('script');
-    
+
     scriptElement.src = `${this._base}${fileName}`;
     scriptElement.addEventListener('load', () => {
       this._scriptLoaded(resolve);
+    });
+
+    scriptElement.addEventListener('error', (event) => {
+      reject(new PlayonNetworkUnableToLoadEngineException(event.error));
     });
 
     document.head.appendChild(scriptElement);

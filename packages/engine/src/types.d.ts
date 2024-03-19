@@ -20,7 +20,7 @@ declare module '@playon-network/engine' {
      * @since 1.0.0
      */
     isLoaded: boolean;
-    
+
     /**
      * The base URL of the operator in the Playon Network
      *
@@ -38,28 +38,20 @@ declare module '@playon-network/engine' {
    */
   export interface PlayonNetworkApp {
     /**
-     * @protected
+     * @package
      * @param {PlayonNetworkEngine} engine
-     * @param {HTMLElement|string} element
-     * @since 1.0.0
-     */
-    constructor(engine: PlayonNetworkEngine, element: HTMLElement|string): void;
-
-    /**
-     * @protected
-     * @param {PlayonNetworkEngine} engine
-     * @param {HTMLElement|string} element
      * @param {AppOptions} [options]
      * @since 1.0.0
      */
-    constructor(engine: PlayonNetworkEngine, element: HTMLElement|string, options: PlayonNetworkEngine): void;
+    constructor(engine: PlayonNetworkEngine, options: PlayonNetworkEngine): void;
 
     /**
      * @package
+     * @param {HTMLElement|string} [element]
      * @returns {Promise<PlayonNetworkApp>}
      * @since 1.0.0
      */
-    load(): PlayonNetworkApp;
+    load(element?: HTMLElement|string): PlayonNetworkApp;
   }
 
   /**
@@ -82,18 +74,18 @@ declare module '@playon-network/engine' {
 
   /**
    * Configuration options for the PlayON Network Engine.
-   * 
+   *
    * @public
    * @since 1.0.0
    */
   export interface EngineOptions {
     /**
      * The PlayON Network ID (NID) associated to your account.
-     * 
+     *
      * @since 1.0.0
      */
     nid: string;
-    
+
     /**
      * @since 1.0.0
      */
@@ -114,11 +106,11 @@ declare module '@playon-network/engine' {
      * @since 1.1.0
      */
     attestationToken?: string;
-    
+
     /**
      * Configure the Engine in test mode to use the staging environment
      * of the PlayON Network. Default value is `false`.
-     * 
+     *
      * @default false
      * @since 1.0.0
      */
