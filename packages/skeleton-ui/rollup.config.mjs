@@ -2,7 +2,7 @@ import {
     buildCjs,
     buildDeps,
     buildEsm,
-    copyTypes, packageFileName
+    copyTypes, packageFileName, removeBuildDirs
 } from '../../rollup.config.mjs';
 import pkg from './package.json' assert { type: "json" };
 import terser from '@rollup/plugin-terser';
@@ -24,6 +24,8 @@ const options = {
 }
 
 const name = packageFileName(pkg);
+
+removeBuildDirs(['cdn', 'dist']);
 
 export default [
     ...buildCjs(pkg, deps, plugins, options),
