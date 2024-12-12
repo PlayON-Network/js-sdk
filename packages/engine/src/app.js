@@ -83,6 +83,11 @@ export default class PlayonNetworkApp {
 
       instance = initializer();
       PlayonNetworkApp._instances[name] = instance;
+
+      // Save the instance in the window to be accessible by the Flutter app using JS interoperability:
+      // https://dart.dev/interop/js-interop
+      window.PLAYON_NETWORK_APP_INSTANCES = window.PLAYON_NETWORK_APP_INSTANCES || {};
+      window.PLAYON_NETWORK_APP_INSTANCES[name] = instance;
     }
 
     return instance;
