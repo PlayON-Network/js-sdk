@@ -112,7 +112,7 @@ export default class FantasySkeleton extends LitElement {
             screen = parts[0];
         }
 
-        return screen || 'teams';
+        return screen || this.defaultScreen || 'lobby';
     }
 
     _isMultisport(parts) {

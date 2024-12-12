@@ -56,6 +56,8 @@ class SkeletonFantasyMain extends LitElement {
     _renderTertiaryBar(screen) {
         switch (screen) {
             case 'lineups':
+            case 'picks':
+            case 'predictions':
             case 'teams':
                 return html`<po-skeleton-app-bar--tertiary></po-skeleton-app-bar--tertiary>`;
 

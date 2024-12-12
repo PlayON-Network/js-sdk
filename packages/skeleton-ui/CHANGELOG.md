@@ -4,6 +4,7 @@
 
 - Added mobile version. Now the skeleton UI is responsive.
 - Added `defaultScreen` parameter to the `FantasySkeleton` component.
+- Changed default skeleton interface to load from `teams` to `lobby`
 
 ## v1.0.0
 
