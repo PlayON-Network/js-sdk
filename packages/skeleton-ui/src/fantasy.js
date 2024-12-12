@@ -27,6 +27,10 @@ export default class FantasySkeleton extends LitElement {
         window.addEventListener('flutter-first-frame', this._fadeOut.bind(this));
     }
 
+    static properties = {
+        defaultScreen: {type: String},
+    };
+
     static styles = [
         skeletonBoxSizing,
         css`
