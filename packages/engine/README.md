@@ -17,7 +17,7 @@ import { initializeEngine } from '@playon-network/engine';
 import { initializeFantasyApp } from '@playon-network/fantasy';
 
 /**
- * Your web app's PlayON Network configuration.
+ * Your web app's PLAYON Network configuration.
  *
  * isTesting is optional, by default is false.
  * To use the staging environment of your application in the PlayON Network,
@@ -30,10 +30,22 @@ import { initializeFantasyApp } from '@playon-network/fantasy';
  * @see {@link EngineOptions#attestationToken} for more information.
  */
 const config = {
-    nid: '<playon-network-identifier>',
+    isTesting: true,
+    nid: '<playon-network-username>',
     authToken: '<auth-token>',
     attestationToken: '<attestation-token>',
-    isTesting: true,
+    onAuthTokenError: (errorCode) => {
+        return new Promise((resolve) => {
+            const authToken = '<your-new-issued-auth-token>';
+            resolve(authToken);
+        });
+    },
+    onRequestAddFunds: (amount) => {
+        return new Promise((resolve) => {
+            const funded = true; // or false if the user didn't fund their wallet.
+            resolve(funded);
+        });
+    },
 };
 
 // Before start the application, you need to initialize the Engine.

@@ -19,6 +19,7 @@ import defaults from './utils/defaults.js';
 import {
   PlayonNetworkNidRequiredException,
   PlayonNetworkAuthTokenRequiredException,
+  PlayonNetworkOnAuthTokenErrorRequiredException,
   PlayonNetworkAttestationTokenRequiredException,
   PlayonNetworkPathWrongFormattedException,
   PlayonNetworkEngineNotInitializedException,
@@ -48,6 +49,8 @@ export default class PlayonNetworkEngine {
 
     if (!config.authToken) {
       throw new PlayonNetworkAuthTokenRequiredException();
+    } else if (config.authToken !== 'fantasy-account' && !config.onAuthTokenError) {
+      throw new PlayonNetworkOnAuthTokenErrorRequiredException();
     }
 
     if (config.isTesting && !config.attestationToken) {
@@ -131,6 +134,8 @@ export default class PlayonNetworkEngine {
   static _defaultOptions = {
     nid: null,
     authToken: null,
+    onAuthTokenError: null,
+    onRequestAddFunds: null,
     attestationToken: null,
     isTesting: false,
     isStandalone: false,
@@ -161,6 +166,10 @@ export default class PlayonNetworkEngine {
   static initialize(config) {
     if (!PlayonNetworkEngine._instance) {
       PlayonNetworkEngine._instance = new PlayonNetworkEngine(config);
+
+      // Save the instance in the window to be accessible by the Flutter app using JS interoperability:
+      // https://dart.dev/interop/js-interop
+      window.PLAYON_NETWORK_ENGINE_INSTANCE = PlayonNetworkEngine._instance;
     }
 
     return PlayonNetworkEngine._instance;

@@ -1,5 +1,12 @@
 declare module '@playon-network/engine' {
   /**
+   * @param {string} error - The message describing why the provided auth token has failed.
+   * @returns {Promise<string>} - A promise which resolves with the new auth token to be used by the PLAYON Engine.
+   * @since 1.2.0
+   */
+  export interface onAuthTokenErrorCallback { (error: string): string }
+
+  /**
    * @param {EngineOptions} config
    * @returns {Promise<PlayonNetworkEngine>}
    * @since 1.0.0
@@ -80,7 +87,7 @@ declare module '@playon-network/engine' {
    */
   export interface EngineOptions {
     /**
-     * The PlayON Network ID (NID) associated to your account.
+     * The PLAYON Network ID (NID) associated to your account.
      *
      * @since 1.0.0
      */
@@ -90,6 +97,17 @@ declare module '@playon-network/engine' {
      * @since 1.0.0
      */
     authToken: string;
+
+    /**
+     * This required callback is used for when the provided auth token has failed
+     * in some way. For example, when the token is invalid or has expired.
+     *
+     * From this callback, you can request a new auth token to your backend and return it
+     * or redirect to your authentication screen in your application.
+     *
+     * @since 1.2.0
+     */
+    onAuthTokenError: onAuthTokenErrorCallback;
 
     /**
      * The attestation token is required to pass the device verification when

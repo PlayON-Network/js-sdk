@@ -15,6 +15,13 @@ const kAuthTokenRequiredCode = 102;
 /**
  * @package
  * @type {number}
+ * @since 1.2.0
+ */
+const kOnAuthTokenErrorRequiredCode = 108;
+
+/**
+ * @package
+ * @type {number}
  * @since 1.1.0
  */
 const kAttestationTokenRequiredCode = 103;
@@ -92,6 +99,20 @@ export class PlayonNetworkAuthTokenRequiredException extends PlayonNetworkExcept
             'PlayonNetworkAuthTokenRequiredException',
             'An Auth Token is required.',
             kAuthTokenRequiredCode,
+        );
+    }
+}
+
+/**
+ * @public
+ * @since 1.2.0
+ */
+export class PlayonNetworkOnAuthTokenErrorRequiredException extends PlayonNetworkException {
+    constructor() {
+        super(
+            'PlayonNetworkOnAuthTokenErrorRequiredException',
+            'An onAuthTokenError callback is required.',
+            kOnAuthTokenErrorRequiredCode,
         );
     }
 }
