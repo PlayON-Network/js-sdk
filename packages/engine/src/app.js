@@ -134,6 +134,7 @@ export default class PlayonNetworkApp {
    * @since 1.0.0
    */
   async run() {
+    this._setupBodyStyles();
     this._listenFirstFrameEvent();
 
     const appRunner = await this._engineInitializer.initializeEngine({
@@ -145,6 +146,16 @@ export default class PlayonNetworkApp {
 
     // noinspection JSUnresolvedReference
     await appRunner.runApp();
+  }
+
+  /**
+   * Add the styles to the body tag needed to avoid issues with the Flutter app.
+   *
+   * @private
+   * @since 1.1.0
+   */
+  _setupBodyStyles() {
+    document.body.style.cssText = 'overflow: hidden; user-select: none; touch-action: none;';
   }
 
   /**
